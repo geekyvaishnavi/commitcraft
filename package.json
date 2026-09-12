@@ -29,6 +29,7 @@
     "LICENSE"
   ],
   "dependencies": {
+    "dotenv": "^17.4.2",
     "openai": "^6.49.0"
   }
 }
