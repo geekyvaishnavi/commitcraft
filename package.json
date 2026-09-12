@@ -1,0 +1,34 @@
+{
+  "name": "commitcraft",
+  "version": "1.0.0",
+  "description": "Rewrite Git commit messages as Conventional Commits with the OpenAI Codex API.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "git",
+    "commit",
+    "conventional-commits",
+    "openai",
+    "codex",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "commitcraft": "./bin/commitcraft.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "openai": "^6.0.0"
+  }
+}
