@@ -29,6 +29,6 @@
     "LICENSE"
   ],
   "dependencies": {
-    "openai": "^6.0.0"
+    "openai": "^6.49.0"
   }
 }
