@@ -33,3 +33,6 @@ git commit
 CommitCraft displays a suggested Conventional Commit subject. Press Enter (or `a`) to accept it, `e` to edit it, or `r` to keep the original message. It skips merge and squash commits, and silently keeps the original message if there is no staged diff, no API key, or an API request fails.
 
 
+
+
+hahha test 
