@@ -15,12 +15,15 @@ function cleanSuggestion(text) {
 export async function suggestCommitMessage({ diff, draft }) {
   if (!process.env.OPENAI_API_KEY || !diff.trim()) return null;
 
+  const model = process.env.OPENAI_MODEL || "gpt-5-mini";
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 8_000, maxRetries: 0 });
   const response = await client.responses.create({
-    model: process.env.OPENAI_MODEL || "gpt-5-mini",
+    model,
+    // Reasoning tokens count toward max_output_tokens; keep them minimal so the answer fits.
+    ...(/^(gpt-5|o\d)/.test(model) && { reasoning: { effort: "minimal" } }),
     instructions: "You write Conventional Commit subjects. Return exactly one line and nothing else. Use type(scope): description when a scope is clear. Allowed types: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test. Keep it under 72 characters, imperative, and do not end with punctuation.",
     input: `Draft message:\n${draft || "(empty)"}\n\nStaged diff (first ${MAX_DIFF_LINES} lines at most):\n${limitedDiff(diff)}`,
-    max_output_tokens: 60,
+    max_output_tokens: 200,
     store: false,
   });
   return cleanSuggestion(response.output_text || "");

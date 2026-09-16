@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 const MARKER = "# Installed by CommitCraft";
 
 function shellQuote(value) {
-  return `'${value.replaceAll("'", "'\\\"'\\\"'")}'`;
+  return `'${value.replaceAll("'", "'\\''")}'`;
 }
 
 function gitPath(...args) {
@@ -29,9 +29,18 @@ export function installHook() {
   }
 
   const cliPath = resolve(process.argv[1]);
+  // The hook must never block a commit: fall back to PATH if the install moved, and always exit 0.
+  // Git gives hooks no stdin, so read keypresses from the terminal when one is available.
   const hook = `#!/bin/sh
 ${MARKER}
-exec ${shellQuote(cliPath)} hook "$1" "$2" "$3"
+CLI=${shellQuote(cliPath)}
+[ -x "$CLI" ] || CLI=$(command -v commitcraft) || exit 0
+if (exec < /dev/tty) 2>/dev/null; then
+  "$CLI" hook "$1" "$2" "$3" < /dev/tty
+else
+  "$CLI" hook "$1" "$2" "$3"
+fi
+exit 0
 `;
   writeFileSync(hookPath, hook, "utf8");
   chmodSync(hookPath, 0o755);
