@@ -1,20 +1,30 @@
 {
   "name": "commitcraft",
   "version": "1.0.0",
-  "description": "Rewrite Git commit messages as Conventional Commits with the OpenAI API.",
+  "description": "Git hook that suggests a Conventional Commit message from your staged diff using OpenAI.",
   "scripts": {
     "test": "node --test"
   },
   "keywords": [
     "git",
+    "git-hook",
     "commit",
+    "commit-message",
     "conventional-commits",
     "openai",
-    "codex",
+    "ai",
     "cli"
   ],
-  "author": "",
+  "author": "Vaishnavi",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geekyvaishnavi/commitcraft.git"
+  },
+  "homepage": "https://github.com/geekyvaishnavi/commitcraft#readme",
+  "bugs": {
+    "url": "https://github.com/geekyvaishnavi/commitcraft/issues"
+  },
   "type": "module",
   "bin": {
     "commitcraft": "./bin/commitcraft.js"
@@ -22,6 +32,10 @@
   "engines": {
     "node": ">=18"
   },
+  "os": [
+    "darwin",
+    "linux"
+  ],
   "files": [
     "bin",
     "src",
