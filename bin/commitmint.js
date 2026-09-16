@@ -12,10 +12,10 @@ try {
   } else if (command === "hook") {
     await runHook(args);
   } else {
-    console.error("Usage: commitcraft <init>");
+    console.error("Usage: commitmint <init>");
     process.exitCode = 1;
   }
 } catch (error) {
-  console.error(`commitcraft: ${error.message}`);
+  console.error(`commitmint: ${error.message}`);
   process.exitCode = 1;
 }

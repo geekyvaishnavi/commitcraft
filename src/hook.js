@@ -27,6 +27,6 @@ export async function runHook([messageFile, source]) {
     const selected = await chooseMessage(suggestion);
     if (selected) writeMessage(messageFile, selected);
   } catch {
-    // A hook must never stop a commit because CommitCraft is unavailable.
+    // A hook must never stop a commit because CommitMint is unavailable.
   }
 }

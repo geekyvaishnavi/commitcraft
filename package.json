@@ -1,5 +1,5 @@
 {
-  "name": "commitcraft",
+  "name": "commitmint",
   "version": "1.0.0",
   "description": "Git hook that suggests a Conventional Commit message from your staged diff using OpenAI.",
   "scripts": {
@@ -19,15 +19,15 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/geekyvaishnavi/commitcraft.git"
+    "url": "git+https://github.com/geekyvaishnavi/commitmint.git"
   },
-  "homepage": "https://github.com/geekyvaishnavi/commitcraft#readme",
+  "homepage": "https://github.com/geekyvaishnavi/commitmint#readme",
   "bugs": {
-    "url": "https://github.com/geekyvaishnavi/commitcraft/issues"
+    "url": "https://github.com/geekyvaishnavi/commitmint/issues"
   },
   "type": "module",
   "bin": {
-    "commitcraft": "./bin/commitcraft.js"
+    "commitmint": "./bin/commitmint.js"
   },
   "engines": {
     "node": ">=18"

@@ -2,7 +2,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync, chmodSync } from "n
 import { execFileSync } from "node:child_process";
 import { resolve } from "node:path";
 
-const MARKER = "# Installed by CommitCraft";
+const MARKER = "# Installed by CommitMint";
+// Hooks installed before the rename from CommitCraft are ours too.
+const LEGACY_MARKER = "# Installed by CommitCraft";
 
 function shellQuote(value) {
   return `'${value.replaceAll("'", "'\\''")}'`;
@@ -23,7 +25,7 @@ export function installHook() {
 
   if (existsSync(hookPath)) {
     const existing = readFileSync(hookPath, "utf8");
-    if (!existing.includes(MARKER)) {
+    if (!existing.includes(MARKER) && !existing.includes(LEGACY_MARKER)) {
       throw new Error(`a prepare-commit-msg hook already exists at ${hookPath}; refusing to overwrite it`);
     }
   }
@@ -34,7 +36,7 @@ export function installHook() {
   const hook = `#!/bin/sh
 ${MARKER}
 CLI=${shellQuote(cliPath)}
-[ -x "$CLI" ] || CLI=$(command -v commitcraft) || exit 0
+[ -x "$CLI" ] || CLI=$(command -v commitmint) || exit 0
 if (exec < /dev/tty) 2>/dev/null; then
   "$CLI" hook "$1" "$2" "$3" < /dev/tty
 else
@@ -44,5 +46,5 @@ exit 0
 `;
   writeFileSync(hookPath, hook, "utf8");
   chmodSync(hookPath, 0o755);
-  console.log("CommitCraft is active for this repository.");
+  console.log("CommitMint is active for this repository.");
 }

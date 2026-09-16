@@ -1,6 +1,6 @@
-# CommitCraft
+# CommitMint
 
-Stop writing `wip` and `fix stuff`. CommitCraft reads your staged changes when you run `git commit` and suggests a clean [Conventional Commit](https://www.conventionalcommits.org/) message. Accept it with one keypress.
+Stop writing `wip` and `fix stuff`. CommitMint reads your staged changes when you run `git commit` and suggests a clean [Conventional Commit](https://www.conventionalcommits.org/) message. Accept it with one keypress.
 
 ```
 $ git commit -m "wip"
@@ -21,7 +21,7 @@ It never blocks a commit. If anything goes wrong (no API key, no network, API er
 ## Install
 
 ```bash
-npm install -g commitcraft
+npm install -g commitmint
 ```
 
 ## Set your API key
@@ -45,10 +45,10 @@ Add `.env` to that repository's `.gitignore` so the key is never committed.
 Run this inside each repository where you want suggestions:
 
 ```bash
-commitcraft init
+commitmint init
 ```
 
-This adds a `prepare-commit-msg` hook to the repository's hooks folder (usually `.git/hooks`). If the repository already has a `prepare-commit-msg` hook (for example from Husky), CommitCraft does not overwrite it.
+This adds a `prepare-commit-msg` hook to the repository's hooks folder (usually `.git/hooks`). If the repository already has a `prepare-commit-msg` hook (for example from Husky), CommitMint does not overwrite it.
 
 ## Use
 
@@ -67,7 +67,7 @@ git commit            # or: git commit -m "wip"
 
 Your original message is used as a hint, so `git commit -m "fix login crash"` steers the suggestion toward a fix.
 
-CommitCraft does nothing for:
+CommitMint does nothing for:
 
 - merge and squash commits
 - commits with nothing staged
@@ -83,7 +83,7 @@ CommitCraft does nothing for:
 ## Privacy and cost
 
 - The first 200 lines of your staged diff and your draft message are sent to OpenAI. Requests use `store: false`, so OpenAI does not keep them for later retrieval.
-- Don't use CommitCraft in repositories whose code must not be sent to a third party.
+- Don't use CommitMint in repositories whose code must not be sent to a third party.
 - With `gpt-5-mini`, a suggestion costs roughly $0.0002 for a small commit and about $0.001 for a large one, billed to your OpenAI account.
 - Each request times out after 8 seconds, so a slow network never holds up a commit for long.
 
@@ -98,7 +98,7 @@ rm "$(git rev-parse --git-path hooks)/prepare-commit-msg"
 Remove the command:
 
 ```bash
-npm uninstall -g commitcraft
+npm uninstall -g commitmint
 ```
 
 ## Troubleshooting
@@ -107,12 +107,12 @@ npm uninstall -g commitcraft
 
 - Check that `OPENAI_API_KEY` is set: `echo $OPENAI_API_KEY`, or check your `.env` file.
 - Check that the hook is installed: `cat "$(git rev-parse --git-path hooks)/prepare-commit-msg"`.
-- If you installed CommitCraft before updating, run `commitcraft init` again to refresh the hook.
+- If you installed CommitMint before updating, run `commitmint init` again to refresh the hook.
 
 **`a prepare-commit-msg hook already exists`.** Another tool owns the hook. Add this line to that hook instead:
 
 ```bash
-commitcraft hook "$1" "$2" "$3" < /dev/tty || true
+commitmint hook "$1" "$2" "$3" < /dev/tty || true
 ```
 
 ## License
