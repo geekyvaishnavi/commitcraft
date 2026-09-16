@@ -1,7 +1,7 @@
 {
   "name": "commitcraft",
   "version": "1.0.0",
-  "description": "Rewrite Git commit messages as Conventional Commits with the OpenAI Codex API.",
+  "description": "Rewrite Git commit messages as Conventional Commits with the OpenAI API.",
   "scripts": {
     "test": "node --test"
   },
