@@ -12,10 +12,10 @@ try {
   } else if (command === "hook") {
     await runHook(args);
   } else {
-    console.error("Usage: commitmint <init>");
+    console.error("Usage: git-commit-format <init>");
     process.exitCode = 1;
   }
 } catch (error) {
-  console.error(`commitmint: ${error.message}`);
+  console.error(`git-commit-format: ${error.message}`);
   process.exitCode = 1;
 }

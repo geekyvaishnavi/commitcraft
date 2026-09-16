@@ -1,4 +1,4 @@
-# PRD: commitmint — AI Conventional Commit Rewriter
+# PRD: git-commit-format — AI Conventional Commit Rewriter
 
 ## 1. Problem
 
@@ -17,8 +17,8 @@ A CLI that hooks into `git commit`, reads the staged diff + draft message, sends
 ## 4. Core user flow
 
 1. Dev runs `git add .` then `git commit` (no `-m`, so editor/hook path triggers)
-2. `prepare-commit-msg` hook fires → commitmint reads `git diff --staged` + existing draft message (if any)
-3. commitmint calls LLM with diff + draft + few-shot Conventional Commit examples
+2. `prepare-commit-msg` hook fires → git-commit-format reads `git diff --staged` + existing draft message (if any)
+3. git-commit-format calls LLM with diff + draft + few-shot Conventional Commit examples
 4. Rewritten message printed to terminal:
     
     ```
@@ -31,9 +31,9 @@ A CLI that hooks into `git commit`, reads the staged diff + draft message, sends
 
 **IN scope:**
 
-- `prepare-commit-msg` git hook, installed via `npx commitmint init` (writes hook into `.git/hooks/`)
+- `prepare-commit-msg` git hook, installed via `npx git-commit-format init` (writes hook into `.git/hooks/`)
 - Single LLM provider (Claude Haiku via Anthropic API — fast, cheap, good enough for this)
-- API key via env var (`COMMITMINT_API_KEY`) — no config file yet
+- API key via env var (`GIT_COMMIT_FORMAT_API_KEY`) — no config file yet
 - Diff truncation if >200 lines (just cut it, don't summarize recursively — that's a v2 problem)
 - One-keypress accept/reject/edit loop in terminal (raw stdin read)
 - Fallback: if diff is empty (e.g. `--amend` with no changes) or API call fails, keep original message and exit silently — never block a commit
@@ -42,7 +42,7 @@ A CLI that hooks into `git commit`, reads the staged diff + draft message, sends
 **OUT of scope (explicitly, for v2):**
 
 - Multi-provider support (OpenAI, Ollama, local models)
-- `.commitmint.yml` per-repo custom types/scopes
+- `.git-commit-format.yml` per-repo custom types/scopes
 - Config file / `~/.commitrc`
 - Merge commit handling beyond "just skip and keep original"
 - Tests, CI
@@ -51,7 +51,7 @@ A CLI that hooks into `git commit`, reads the staged diff + draft message, sends
 
 ## 6. Success criteria for the 2-day version
 
-- `npm install -g commitmint && commitmint init` works in a fresh repo
+- `npm install -g git-commit-format && git-commit-format init` works in a fresh repo
 - Real commit on a real diff produces a correctly-formatted Conventional Commit message
 - Keypress accept/reject/edit all work
 - Broken API key / no network → commit still succeeds with original message (never blocks the dev)
@@ -62,7 +62,7 @@ A CLI that hooks into `git commit`, reads the staged diff + draft message, sends
 **Day 1 — core engine (no polish)**
 
 - AM: `package.json` + `bin` entry, project skeleton, npm account/name check
-- AM: hook install logic — `commitmint init` writes a `prepare-commit-msg` script into `.git/hooks/` that shells out to your CLI
+- AM: hook install logic — `git-commit-format init` writes a `prepare-commit-msg` script into `.git/hooks/` that shells out to your CLI
 - Midday: diff reading (`git diff --staged`) + draft message reading from the file git passes in
 - PM: Claude Haiku API call — prompt with diff + draft + Conventional Commit few-shot examples, parse response into a single clean message
 - PM: hardcode a couple of test diffs, confirm output quality, tune prompt

@@ -1,5 +1,5 @@
 {
-  "name": "commitmint",
+  "name": "git-commit-format",
   "version": "1.0.0",
   "description": "Git hook that suggests a Conventional Commit message from your staged diff using OpenAI.",
   "scripts": {
@@ -19,15 +19,15 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/geekyvaishnavi/commitmint.git"
+    "url": "git+https://github.com/geekyvaishnavi/git-commit-format.git"
   },
-  "homepage": "https://github.com/geekyvaishnavi/commitmint#readme",
+  "homepage": "https://github.com/geekyvaishnavi/git-commit-format#readme",
   "bugs": {
-    "url": "https://github.com/geekyvaishnavi/commitmint/issues"
+    "url": "https://github.com/geekyvaishnavi/git-commit-format/issues"
   },
   "type": "module",
   "bin": {
-    "commitmint": "./bin/commitmint.js"
+    "git-commit-format": "./bin/git-commit-format.js"
   },
   "engines": {
     "node": ">=18"
@@ -44,6 +44,7 @@
   ],
   "dependencies": {
     "dotenv": "^17.4.2",
+    "git-commit-format": "^1.0.0",
     "openai": "^6.49.0"
   }
 }
