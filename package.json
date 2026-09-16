@@ -44,7 +44,6 @@
   ],
   "dependencies": {
     "dotenv": "^17.4.2",
-    "git-commit-format": "^1.0.0",
     "openai": "^6.49.0"
   }
 }
