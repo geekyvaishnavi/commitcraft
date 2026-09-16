@@ -1,5 +1,9 @@
 # git-commit-format
 
+[![npm version](https://img.shields.io/npm/v/git-commit-format)](https://www.npmjs.com/package/git-commit-format)
+[![npm downloads](https://img.shields.io/npm/dw/git-commit-format)](https://www.npmjs.com/package/git-commit-format)
+[![license](https://img.shields.io/npm/l/git-commit-format)](LICENSE)
+
 Stop writing `wip` and `fix stuff`. `git-commit-format` reads your staged changes when you run `git commit` and suggests a clean [Conventional Commit](https://www.conventionalcommits.org/) message. Accept it with one keypress.
 
 ```
@@ -10,6 +14,27 @@ Suggested: feat(auth): add refresh token rotation
 ```
 
 It never blocks a commit. If anything goes wrong (no API key, no network, API error), your original message is kept.
+
+## Quick start
+
+```bash
+npm install -g git-commit-format
+export OPENAI_API_KEY="sk-..."
+cd your-repo
+git commit-format init
+```
+
+Then commit as usual. Details for each step are below.
+
+## Example suggestions
+
+| What you staged | Suggested message |
+|---|---|
+| A new `rotateRefreshToken` function in `src/auth/` | `feat(auth): add rotateRefreshToken to rotate refresh tokens` |
+| A loop that read past the end of an array | `fix(utils): prevent out-of-bounds access in paginate loop` |
+| An in-memory cache for a database lookup | `perf(users): add in-memory cache to findUser to reduce DB queries` |
+| A dependency version bump in `package.json` | `chore(deps): bump express to ^5.1.0` |
+| A new troubleshooting section in `README.md` | `docs: add troubleshooting note about OPENAI_API_KEY in README` |
 
 ## Requirements
 
@@ -23,6 +48,8 @@ It never blocks a commit. If anything goes wrong (no API key, no network, API er
 ```bash
 npm install -g git-commit-format
 ```
+
+Install it globally with `-g`. Running it through `npx` or adding it as a project dependency doesn't work, because the Git hook needs a permanent command to call.
 
 ## Set your API key
 
@@ -75,6 +102,16 @@ Your original message is used as a hint, so `git commit -m "fix login crash"` st
 - commits with nothing staged
 - commits made without a terminal (for example, from a GUI Git client or CI)
 
+## How it works
+
+1. `init` adds a `prepare-commit-msg` hook, which Git runs before every commit.
+2. The hook reads your staged diff (`git diff --cached`) and your draft message.
+3. It sends the first 200 lines of the diff and the draft to OpenAI, asking for one Conventional Commit line.
+4. It checks the reply is a valid `type(scope): description` line, then shows it and waits for a keypress.
+5. The message you choose is written to the commit message file, and Git continues as normal.
+
+If any step fails, the hook exits quietly and Git uses your original message.
+
 ## Configuration
 
 | Variable | Default | Purpose |
@@ -116,6 +153,27 @@ npm uninstall -g git-commit-format
 ```bash
 git-commit-format hook "$1" "$2" "$3" < /dev/tty || true
 ```
+
+**`command not found: git-commit-format`.** The package isn't installed globally. Run `npm install -g git-commit-format`, then `git commit-format init` again.
+
+## Development
+
+```bash
+git clone https://github.com/geekyvaishnavi/git-commit-format.git
+cd git-commit-format
+npm install
+npm link                 # makes your local copy the global git-commit-format command
+git commit-format init   # in a test repository
+```
+
+Run `npm unlink -g git-commit-format` to switch back to the published version.
+
+## Links
+
+- [npm package](https://www.npmjs.com/package/git-commit-format)
+- [Releases and changelog](https://github.com/geekyvaishnavi/git-commit-format/releases)
+- [Report an issue](https://github.com/geekyvaishnavi/git-commit-format/issues)
+- [Conventional Commits specification](https://www.conventionalcommits.org/)
 
 ## License
 
